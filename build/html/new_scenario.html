@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../css/application.css" rel="stylesheet" type="text/css">
+    <link href="../css/scenario.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/animate.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstro.css" rel="stylesheet" type="text/css">
+  </head>
+  <body class="frame-border">
+    <div class="container-fluid">
+      <div class="row scenario-header">
+        <div class="col-xs-12">
+
+          <span class="scenario-mode-icon-edit pull-left" title="Edit mode">
+            <i class="fa fa-pencil-square fa-3x"></i>
+          </span>
+            <!-- <i class="scenario-mode-icon scenario-mode-icon-edit" title="Edit mode"></i> -->
+          <span class="title-button-group">
+            <span class="fa-stack fa-lg title-button js-tutorial-start" title="Tutorial">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-question fa-stack-1x fa-inverse"></i>
+            </span>
+            <span class="fa-stack fa-lg title-button js-home" title="Home">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+            </span>
+            <span class="fa-stack fa-lg title-button js-close" title="Close">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+            </span>
+          </span>
+          <span class="page-title"><span id="scenario-name"></span> </span><span class="js-scenario-device-size"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="scenario-content">
+            <div class="scenario-col-left">
+              <div class="bootstro bootstro-new-scenario-steps-list" data-bootstro-title="Tutorial: Record" data-bootstro-content="Your actions are automatically recorded." data-bootstro-step="1" data-bootstro-placement="right">
+                <h4 class="text-muted">Steps:</h4>
+                <!-- <ol id="steps-list"></ol> -->
+                <div id="steps-list"></div>
+              </div>
+            </div>
+            <div class="scenario-col-main">
+              <div id="new-scenarios-controls">
+                <button id='reset-btn' class="btn btn-danger pull-right btn-scenario-control" data-toggle="modal" data-target="#reset-modal">Reset</button>
+                <button id='test-run-btn' class="btn btn-primary btn-scenario-control bootstro" data-bootstro-title="Tutorial: Test" data-bootstro-content="Replay your scenario in a new session to try it out." data-bootstro-step="3" data-bootstro-placement="bottom"><b>&nbsp;&nbsp;Test Run&nbsp;&nbsp;</b></button>
+                <button id="save-btn" class="btn btn-info btn-scenario-control bootstro" data-bootstro-title="Tutorial: Save" data-bootstro-content="Save your scenario when it is done." data-bootstro-step="4" data-bootstro-placement="right" data-bootstro-finishButtonText="Exit Tutorial"><b>Save</b></button>
+                <div style="display:inline-block;" class="bootstro" data-bootstro-title="Tutorial: Add" data-bootstro-content="Add specialized steps as needed." data-bootstro-step="2" data-bootstro-placement="bottom">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
+                      Verify <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#" id="verify-text-btn">Text in page</a></li>
+                      <li><a href="#" id="verify-url-btn">URL</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
+                      Wait <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#" id="wait-time-btn">by Time</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
+                      Browser <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#" id="browser-back-btn">Go Back</a></li>
+                      <li><a href="#" id="browser-forward-btn">Go Forward</a></li>
+                      <li><a href="#" id="browser-reload-btn">Reload</a></li>
+                      <li><a href="#" id="browser-hover-btn">Hover</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
+                      Data <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#" id="data-insert-btn">Insert</a></li>
+                      <li><a href="#" data-toggle="modal" data-target="#data-manage-modal">Manage</a></li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="well well-sm scenario-url-container">
+                <span id="page-status"><i class="fa fa-spinner fa-spin" ></i></span>
+                <div id="scenario-url"></div>
+              </div>
+              <div class="text-center">
+                <div id='webview-container' class="bootstro" data-bootstro-title="Tutorial: Use" data-bootstro-content="Use your website like a user in this scenario." data-bootstro-step="0" data-bootstro-placement="top">
+                  <div id='webview-cover'>
+                    <canvas id="webview-cover-canvas"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+    </footer>
+
+    <div class="modal fade" id="verify-text-modal" tabindex="-1" role="dialog" aria-labelledby="verify-text-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="step" data-doc-subsection="steps-for-verification">?</button>
+            <h4 class="modal-title" id="verify-text-modal-label">Verify by text on page</h4>
+          </div>
+          <form role="form" id="verify-text-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="verify-text">Enter the text to verify on your page:</label>
+                <input class="form-control" id="verify-text-input" placeholder="e.g. username, alert message, etc">
+                <input type="checkbox" id="verify-text-case-insensitive"> <label>Case Insensitive</label>
+                &nbsp;&nbsp;
+                <input type="checkbox" id="verify-text-not-exist"> <label>Not Exist</label>
+              </div>
+              <br>
+              <div class="form-group">
+                <label id="verify-text-elements-selection-title"></label>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="verify-text-elements" id="verify-text-element-anywhere" checked>
+                    Anywhere in the page
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="verify-text-elements" id="verify-text-element-select">
+                    In a selected element (Choose option to select the element)
+                  </label>
+                  <br>
+                  <span class="verify-text-selected-display">Selected:
+                    <span id="verify-text-selected-element"></span>
+                    <button class="btn btn-sm btn-default" id="verify-text-element-select-another">Choose another</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="text-danger modal-error-message" id="verify-text-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Ok"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="wait-time-modal" tabindex="-1" role="dialog" aria-labelledby="wait-time-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="step" data-doc-subsection="steps-for-waiting">?</button>
+            <h4 class="modal-title" id="wait-time-modal-label">Wait By Time</h4>
+          </div>
+          <form role="form" id="wait-time-form" class="form-horizontal">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="wait-time" class="control-label col-xs-2 col-xs-offset-2">Wait for: </label>
+                <div class="col-xs-4">
+                  <select class="form-control" id="wait-time-select">
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="60">60</option>
+                  </select>
+                </div>
+                <label for="wait-time" class="control-label col-xs-2">seconds</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="Ok"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="reset-modal" tabindex="-1" role="dialog" aria-labelledby="reset-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="reset-modal-label">Reset</h4>
+          </div>
+          <form role="form" id="reset-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <p>Reset will:</p>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="reset-options" id="reset-options-rerun" value="rerun" checked>
+                    restart and rerun the current steps
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="reset-options" id="reset-options-last-saved" value="saved">
+                    revert back to the last saved state
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="reset-options" id="reset-options-clear" value="clear">
+                    restart without any steps
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="Confirm"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="close-modal" tabindex="-1" role="dialog" aria-labelledby="close-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="close-modal-label">Close</h4>
+          </div>
+          <form role="form" id="close-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <p>Some changes are not saved.</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="Save and Close"></input>
+              <button type="button" class="btn btn-danger" id="close-not-save-btn">Close Without Saving</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="verify-url-modal" tabindex="-1" role="dialog" aria-labelledby="verify-url-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="step" data-doc-subsection="steps-for-verification">?</button>
+            <h4 class="modal-title" id="verify-url-modal-label">Verify URL</h4>
+          </div>
+          <form role="form" id="verify-url-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Current URL:</label>
+                <input class="form-control" id="verify-url-current-url" disabled value="">
+              </div>
+              <label>Enter path for verification:</label>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon" id="verify-url-host"></div>
+                  <input class="form-control" id="verify-url-path" placeholder="path" size="80" spellcheck="false" focus>
+                </div>
+                <span class="help-block">
+                  <span id="verify-url-mismatch-current-url" class="label label-warning"><i class="fa fa-exclamation-triangle"></i> Mismatch current URL</span>
+                  <span id="verify-url-invalid-regex" class="label label-danger"><i class="fa fa-exclamation-triangle"></i> Invalid Regular Expression</span>
+                </span>
+              </div>
+              <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <input id="verify-url-use-regex" type="checkbox" value="">
+                    Use Regular Expression
+                  </label>
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-xs-12">
+                  <button class="btn btn-info pull-left modal-hints" data-target="#verify-url-hints">Regex Hints</button>
+                  <input type="submit" class="btn btn-primary" id="verify-url-submit-btn" value="Ok"></input>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="bg-info text-left modal-regex-hints" id="verify-url-hints">
+                    Regulr expression hints:<br>
+                    <br>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div><span class="regex-help-char">^</span><span class="regex-help-description">beginning of text</span></div>
+                        <div><span class="regex-help-char">$</span><span class="regex-help-description">end of text</span></div>
+                        <div><span class="regex-help-char">*</span><span class="regex-help-description">matches 0 or more times</span></div>
+                        <div><span class="regex-help-char">+</span><span class="regex-help-description">matches 1 or more times</span></div>
+                        <div><span class="regex-help-char">?</span><span class="regex-help-description">matches 0 or 1 time</span></div>
+                        <div><span class="regex-help-char">{n}</span><span class="regex-help-description">matches n times</span></div>
+                        <div><span class="regex-help-char">{n,m}</span><span class="regex-help-description">matches n to m times</span></div>
+                        <div><span class="regex-help-char">{n,}</span><span class="regex-help-description">matches n to more times</span></div>
+                        <div><span class="regex-help-char">.</span><span class="regex-help-description">any character except newline</span></div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div><span class="regex-help-char">x|y</span><span class="regex-help-description">match x or y</span></div>
+                        <div><span class="regex-help-char">[xyz]</span><span class="regex-help-description">matches one character in bracket</span></div>
+                        <div><span class="regex-help-char">[^xyz]</span><span class="regex-help-description">matches one character not in bracket</span></div>
+                        <div><span class="regex-help-char">\d</span><span class="regex-help-description">matches a digit character</span></div>
+                        <div><span class="regex-help-char">\D</span><span class="regex-help-description">matches a non-digit character</span></div>
+                        <div><span class="regex-help-char">\s</span><span class="regex-help-description">matches a white space character</span></div>
+                        <div><span class="regex-help-char">\S</span><span class="regex-help-description">matches a non-white space character</span></div>
+                        <div><span class="regex-help-char">\w</span><span class="regex-help-description">matches an alphanumeric character, or underscore</span></div>
+                        <div><span class="regex-help-char">\W</span><span class="regex-help-description">matches non-word character</span></div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank">Documentation</a> on Javascript regular expression
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit-step-modal" tabindex="-1" role="dialog" aria-labelledby="edit-step-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="edit-step-modal-label">Edit Step</h4>
+          </div>
+          <form role="form" id="edit-step-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Locate Element By:</label>
+                <div class="radio">
+                  <label class="edit-step-modal-radio-label">
+                    <input type="radio" name="edit-step-radio-group-locate-element" id="edit-step-radio-element-id">
+                    <div>
+                      <span>Element Id</span>
+                      <input type="text" class="form-control" id="edit-step-text-element-id" spellcheck="false" disabled>
+                    </div>
+                  </label>
+                </div><!-- /input-group -->
+                <div class="radio">
+                  <label class="edit-step-modal-radio-label">
+                    <input type="radio" name="edit-step-radio-group-locate-element" id="edit-step-radio-css-selector">
+                    <div>
+                      CSS Selector
+                      <input type="text" class="form-control" id="edit-step-text-css-selector" spellcheck="false" disabled>
+                    </div>
+                  </label>
+                </div><!-- /input-group -->
+                <div class="radio">
+                  <label class="edit-step-modal-radio-label">
+                    <input type="radio" name="edit-step-radio-group-locate-element" id="edit-step-radio-xpath">
+                    <div>
+                      XPath
+                      <input type="text" class="form-control" id="edit-step-text-xpath" spellcheck="false" disabled>
+                    </div>
+                  </label>
+                </div><!-- /input-group -->
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <span><p class="text-danger modal-error-message" id="edit-step-error"></p></span>
+              <input type="submit" class="btn btn-primary" id="edit-step-submit-btn" value="Save"></input>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="data-insert-modal" tabindex="-1" role="dialog" aria-labelledby="data-insert-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="step" data-doc-subsection="steps-for-data">?</button>
+            <h4 class="modal-title" id="data-insert-modal-label">Insert Data</h4>
+          </div>
+          <form role="form" id="data-insert-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Data:</label>
+                <select class="form-control" id="data-insert-data-select">
+                  <option disabled selected> -- Select Data -- </option>
+                  <optgroup label="Project Data" id="project-data-option-group">
+                  </optgroup>
+                  <optgroup label="Scenario Data" id="scenario-data-option-group">
+                  </optgroup>
+                  <option disabled="disabled"></option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Insert into:</label>
+                <div>
+                  <button class="btn btn-default" id="data-insert-element-select">Select Element</button> Selected: <span id="data-insert-selected-element-name">&lt;none&gt;</span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="text-danger modal-error-message" id="data-insert-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Ok"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info pull-left" id="data-insert-manage-data">Manage Data</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="data-manage-modal" tabindex="-1" role="dialog" aria-labelledby="data-manage-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="data">?</button>
+            <h4 class="modal-title" id="data-manage-modal-label">Manage Scenario Data</h4>
+          </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="data-manage-add-form-container">
+                    <form class="form-inline" id="data-manage-add-form">
+                      <div class="form-group">
+                        <label for="data-manage-add-name" class="data-manage-data-form-label">Name</label>
+                        <input type="text" class="form-control data-manage-add-form-control data-manage-add-form-control-input" id="data-manage-add-name">
+                      </div>
+                      <div class="form-group">
+                        <label for="data-manage-add-value" class="data-manage-data-form-label">Value</label>
+                        <input type="text" class="form-control data-manage-add-form-control data-manage-add-form-control-input" id="data-manage-add-value">
+                      </div>
+                      <div class="checkbox">
+                        <label class="data-manage-add-form-control">
+                          <input type="checkbox" id="data-manage-add-regex"> Regex
+                        </label>
+                      </div>
+                      <button type="submit" class="btn btn-default">Add Data</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <table class="table" id="data-manage-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Regex</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-xs-12">
+                  <form role="form" id="data-manage-form">
+                    <button class="btn btn-info pull-left modal-hints" data-target="#data-manage-hints">Regex Hints</button>
+                    <span><p class="text-danger modal-error-message" id="data-manage-error"></p></span>
+                    <input type="submit" class="btn btn-primary" value="OK"></input>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="bg-info text-left modal-regex-hints" id="data-manage-hints">
+                    Regulr expression hints:<br>
+                    <br>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div><span class="regex-help-char">^</span><span class="regex-help-description">beginning of text</span></div>
+                        <div><span class="regex-help-char">$</span><span class="regex-help-description">end of text</span></div>
+                        <div><span class="regex-help-char">*</span><span class="regex-help-description">matches 0 or more times</span></div>
+                        <div><span class="regex-help-char">+</span><span class="regex-help-description">matches 1 or more times</span></div>
+                        <div><span class="regex-help-char">?</span><span class="regex-help-description">matches 0 or 1 time</span></div>
+                        <div><span class="regex-help-char">{n}</span><span class="regex-help-description">matches n times</span></div>
+                        <div><span class="regex-help-char">{n,m}</span><span class="regex-help-description">matches n to m times</span></div>
+                        <div><span class="regex-help-char">{n,}</span><span class="regex-help-description">matches n to more times</span></div>
+                        <div><span class="regex-help-char">.</span><span class="regex-help-description">any character except newline</span></div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div><span class="regex-help-char">x|y</span><span class="regex-help-description">match x or y</span></div>
+                        <div><span class="regex-help-char">[xyz]</span><span class="regex-help-description">matches one character in bracket</span></div>
+                        <div><span class="regex-help-char">[^xyz]</span><span class="regex-help-description">matches one character not in bracket</span></div>
+                        <div><span class="regex-help-char">\d</span><span class="regex-help-description">matches a digit character</span></div>
+                        <div><span class="regex-help-char">\D</span><span class="regex-help-description">matches a non-digit character</span></div>
+                        <div><span class="regex-help-char">\s</span><span class="regex-help-description">matches a white space character</span></div>
+                        <div><span class="regex-help-char">\S</span><span class="regex-help-description">matches a non-white space character</span></div>
+                        <div><span class="regex-help-char">\w</span><span class="regex-help-description">matches an alphanumeric character, or underscore</span></div>
+                        <div><span class="regex-help-char">\W</span><span class="regex-help-description">matches non-word character</span></div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank">Documentation</a> on Javascript regular expression
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="webview-selector">
+      <div class="webview-selector-info">
+        <span class="js-webview-selector-info-message">Please select an element by clicking on it.</span> <button class="btn-growl btn-sm webview-selector-cancel"><strong>Cancel</strong></button>
+      </div>
+    </div>
+
+    <script src="../js/vendors/URI.js"></script>
+    <script src="../js/vendors/randexp.min.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/require.js"></script>
+    <script src="../js/scenario/new_scenario.js"></script>
+  </body>
+</html>

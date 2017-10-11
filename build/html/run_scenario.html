@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../css/application.css" rel="stylesheet" type="text/css">
+    <link href="../css/scenario.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/animate.min.css" rel="stylesheet">
+  </head>
+  <body class="frame-border">
+    <div class="container-fluid">
+      <div class="row scenario-header">
+        <div class="col-xs-12">
+          <span class="scenario-mode-icon-test pull-left">
+            <i class="fa fa-caret-square-o-right fa-3x" title="Test mode"></i>
+          </span>
+          <span class="title-button-group">
+            <span class="fa-stack fa-lg title-button js-home" title="home">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+            </span>
+            <span class="fa-stack fa-lg title-button js-close" title="close">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+            </span>
+          </span>
+          <span class="page-title"><span id="scenario-name"></span> </span><span class="js-scenario-device-size"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="scenario-content">
+            <div class="scenario-col-left">
+              <h4 class="text-muted">Steps:</h4>
+              <div id="steps-list">
+              </div>
+            </div>
+            <div class="scenario-col-main">
+              <div id="new-scenarios-controls">
+                <button id='rerun' class="btn btn-default">Rerun</button>
+                <span class="pull-right" id="status-label-container">
+                  <span id="status-label">status: </span>
+                  <span id="result-label-initializing" class="label label-default result-label">Initializing</span>
+                  <span id="result-label-running" class="label label-default result-label">Running</span>
+                  <span id="result-label-pass" class="label label-success result-label">Pass</span>
+                  <span id="result-label-fail" class="label label-danger result-label" rel="popover" data-placement="bottom" data-trigger="hover"  data-container="body" data-content="">Fail</span>
+                </span>
+              </div>
+              <div class="well well-sm scenario-url-container">
+                <span id="page-status"><i class="fa fa-spinner fa-spin" ></i></span>
+                <div id="scenario-url"></div>
+              </div>
+              <div class="text-center">
+                <div id='webview-container'>
+                  <div id='webview-cover'>
+                    <canvas id="webview-cover-canvas"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+    </footer>
+
+    <script src="../js/vendors/URI.js"></script>
+    <script src="../js/vendors/randexp.min.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/require.js"></script>
+    <script src="../js/scenario/run_scenario.js"></script>
+  </body>
+
+</html>

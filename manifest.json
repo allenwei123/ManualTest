@@ -1,0 +1,34 @@
+{
+   "app": {
+      "background": {
+         "scripts": [ "/build/js/vendors/URI.js", "/build/js/vendors/randexp.min.js", "/build/js/config.js", "/build/js/require.js", "/build/js/background.js" ]
+      }
+   },
+   "description": "Create and run tests for website without writing any code.",
+   "icons": {
+      "128": "/build/images/logo/logo_128.png",
+      "16": "/build/images/logo/logo_16.png",
+      "32": "/build/images/logo/logo_32.png",
+      "48": "/build/images/logo/logo_48.png",
+      "64": "/build/images/logo/logo_64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7CLrOIaSHgcVYBs6y5UykViOHmNpTyHItx3V7Jjw8RVoP+LmGJHD4WEzV80wLWG8Zv9ZHXfMBiu80cfvElJ3Edx4olm8fmrqevM8boNxBVmp+qWa3qmUlEgpOgHmlgcJeii5DoOrVahqsRJjFgdPKKWuJEV/dAFreQdhxgiPT0JyR2xpZP9BsPGwv+vipG/yJcXBNUWeskUdIOPz7brMXb1KGYlbabyLh3lwJ6zKJuD6uFjzT1fLQeH6L0AIPFQtIYiHmciZOUVL7QPM6iHKfuIQJ2Cu+R0zehte5KU/207MTFMrqB7015fTAIMN206xQ9S3jUukT1Bm0FZ3GYuwvwIDAQAB",
+   "manifest_version": 2,
+   "name": "ManualTest.io",
+   "offline_enabled": true,
+   "permissions": [ "webview", "http://localhost/", "http://0.0.0.0/", "http://192.168.1.99/", "http://macair.com/", "https://manualtest.io/", "identity" ],
+   "short_name": "ManualTestio",
+   "sockets": {
+      "tcpServer": {
+         "listen": ":6030"
+      }
+   },
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "url_handlers": {
+      "pages": {
+         "matches": [ "https://manualtest.io/app/handler/pages/*" ],
+         "title": "Launch Page"
+      }
+   },
+   "version": "0.36"
+}

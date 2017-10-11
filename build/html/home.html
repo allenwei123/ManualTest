@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../css/application.css" rel="stylesheet" type="text/css">
+    <link href="../css/home.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/animate.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="initialization-cover"><span class="initialization-message"><i class="fa fa-spinner fa-spin"></i> Initializing...</span></div>
+
+    <nav class="navbar-custom navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="brand navbar-brand" >
+            <img src="../images/logo/logo_32.png" class="navbar-logo"></img>
+            <strong>ManualTest.io</strong>
+          </span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a target="_blank" href="https://manualtest.io/documentation/getting_started">Help</a></li>
+            <li id="header-nav-signin"><a href="#" data-toggle="modal" data-target="#signin-modal"><strong>Sign in</strong></a></li>
+            <li class="dropdown" id="header-nav-user">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <strong><span id="header-username"></span></strong> <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" data-toggle="modal" data-target="#edit-profile-modal">Edit Profile</a>
+                </li>
+<!--                 <li class="divider"></li>
+                <li>
+                  <a href="#" id="header-nav-signout">Sign Out</a>
+                </li> -->
+              </ul>
+            </li>
+
+<!--             <li class="dropdown">
+              <button class="btn btn-default navbar-btn" type="button">
+                <strong><span>Sign in</span></strong>
+              </button>
+            </li>
+ -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="window">
+      <span id="sidebar-toggle-btn" class="js-sidebar-toggle">
+        <i class="fa fa-caret-right fa-border fa-inverse fa-small"></i>
+      </span>
+      <div id="sidebar"> <!-- sidebar -->
+        <div class="sidebar-content">
+          <div class="sidebar-title">Projects<span class="pull-right"><button class="btn btn-xs btn-info" id="add-project-btn"><i class="fa fa-plus fa-lg"></i></button></span></div>
+          <ul class="sidebar-projects-nav">
+          </ul>
+        </div>
+
+
+      </div> <!-- sidebar -->
+      <div id="content-page">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-home" style="position: relative;">
+              <a href="#" class="btn btn-default page-title-back-link pull-right" id="js-back-link-project-page">
+                <i class="fa fa-chevron-left"></i> Back
+              </a>
+              <div class="title-project">
+                 <span id="title-project-name"></span> <span id="title-project-url" class="url"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-home">
+              <div id="js-pages-carousel" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <div class="row"> <!-- project page -->
+                      <div class="col-xs-12">
+                        <ul class="nav nav-tabs" role="tablist" id="home-project-tabs">
+                          <li role="presentation" class="active" id="tab-project-scenarios">
+                            <a href="#tabpanel-project-scenarios" aria-controls="tabpanel-project-scenarios" role="tab" data-toggle="tab">Scenarios</a>
+                          </li>
+                          <li role="presentation" id="tab-project-data-set">
+                            <a href="#tabpanel-project-data-set" aria-controls="tabpanel-project-data-set" role="tab" data-toggle="tab">Data</a>
+                          </li>
+<!-- 
+                          <li role="presentation" id="tab-project-settings">
+                            <a href="#tabpanel-project-settings" aria-controls="tabpanel-project-settings" role="tab" data-toggle="tab">Settings</a>
+                          </li>
+ -->
+                        </ul>
+                        <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane active" id="tabpanel-project-scenarios">
+
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="home-controls">
+                                  <button id="run-scenario-btn" class="btn btn-primary home-control">Run</button>
+                                  <button id="new-scenario-btn" class="btn btn-default home-control">New Scenario</button>
+                                  <a class="btn-home-project-doc js-link-doc" data-doc-section='scenario' data-toggle="tooltip" data-placement="left" data-html="true" title="Documentation on<br>Scenario">
+                                    <i class="fa fa-question-circle fa-2x icon-help"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="table-container">
+                                  <table id="scenarios-table" class="table table-hover">
+                                    <thead>
+                                      <tr>
+                                        <td class="td-scenario-select"><input type="checkbox" id="js-td-sceanrio-select-overall"></td>
+                                        <td><div class="td-scenario-name">Name</div></td>
+                                        <td class="thead-scenario-url">URL</td>
+                                        <td class="td-scenario-device-size"></td>
+                                        <td class="td-scenario-result"></td>
+                                        <td class="td-icon-button"></td>
+                                        <td class="td-icon-button"></td>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="tabpanel-project-data-set">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="home-controls">
+                                  <button class="btn btn-primary home-control" id="add-project-data-btn">Add Data</button>
+                                  <a class="btn-home-project-doc js-link-doc" data-doc-section='data' data-toggle="tooltip" data-placement="left" data-html="true" title="Documentation on<br>Data">
+                                    <i class="fa fa-question-circle fa-2x icon-help"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="table-container">
+                                  <table id="project-data-table" class="table table-data-set">
+                                    <thead>
+                                      <tr>
+                                        <td class="td-name">Name</td>
+                                        <td class="td-value">Value</td>
+                                        <td class="td-regex">Regex</td>
+                                        <td class="td-icon-button"></td>
+                                        <td class="td-icon-button"></td>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div role="tabpanel" class="tab-pane" id="tabpanel-project-settings">...</div> -->
+                        </div>
+                      </div>
+                    </div> <!-- end project page -->
+                  </div>
+                  <div class="item">
+                    <div class="row"> <!-- scenario page -->
+                      <div class="col-xs-12">
+                        <dl class="dl-horizontal scenario-detail" id="">
+                          <dt class="scenario-name">Scenario</dt>
+                          <dd class="scenario-name"><span id="js-scenario-page-scenario-name"></span></dd>
+                          <dt>URL</dt>
+                          <dd><span id="js-scenario-page-scenario-url"></span></dd>
+                          <dt>Device Size</dt>
+                          <dd><span id="js-scenario-page-scenario-device-size"></span></dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="home-controls">
+                          <button class="btn btn-primary home-control js-scenario-page-run-scenario">Run</button>
+                          <button class="btn btn-default home-control js-scenario-page-edit-scenario">Edit Scenario</button>
+                          <button class="btn btn-default home-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu pull-right" style="margin-right: 15px;">
+                            <li><a href="#" class="js-scenario-page-clone-scenario">Clone</a></li>
+                            <li><a href="#" class="js-scenario-page-remove-scenario">Remove</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <ul class="nav nav-tabs tabs-home" role="tablist" id="home-scenario-tabs">
+                          <li role="presentation" class="active">
+                            <a href="#tab-scenario-results" aria-controls="tab-scenario-results" role="tab" data-toggle="tab">Results</a>
+                          </li>
+                          <li role="presentation">
+                            <a href="#tab-scenario-data-set" aria-controls="tab-scenario-data-set" role="tab" data-toggle="tab">Data</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane active" id="tab-scenario-results">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="table-container">
+                                  <table id="js-results-table" class="table table-results">
+                                    <thead>
+                                      <tr>
+                                        <td class="td-result-start-time">Start</td>
+                                        <td class="td-result-pass">Result</td>
+                                        <td class="td-result-device-size">Device</td>
+                                        <td class="td-result-url">URL</td>
+                                        <td class="td-result-note">Note</td>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="tab-scenario-data-set">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <table class="table table-data-set" id="scenario-data-table">
+                                  <thead>
+                                    <tr>
+                                      <td class="td-name">Name</td>
+                                      <td class="td-value">Value</td>
+                                      <td class="td-regex">Regex</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> <!-- scenario page -->
+                  </div>
+
+                </div> <!-- end carousel-inner -->
+              </div> <!-- end carousel -->
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div id="footer-feedback-btn" class="js-feedback">feedback</div>
+    </footer>
+
+
+    <div class="modal fade" id="new-scenario-modal" tabindex="-1" role="dialog" aria-labelledby="new-scenario-modal-title" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="scenario" data-doc-subsection="create-a-scenario">?</button>
+            <h4 class="modal-title" id="new-scenario-modal-title">New Scenario</h4>
+          </div>
+          <form role="form" id="new-scenario-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="new-scenario-name" class="label-new-scenario-input-name">Name</label><span>What should this scenario be called?</span>
+                <input class="form-control" id="new-scenario-name" placeholder="Enter scenario name">
+              </div>
+              <div class="form-group">
+                <label for="new-scenario-url" class="label-new-scenario-input-name">Start URL</label><span>Where do you want to start testing?</span>
+                <div class="input-group">
+                  <div class="input-group-addon" id="new-scenario-project-url"></div>
+                  <input class="form-control" id="new-scenario-url" placeholder="your_page.html" size="80" spellcheck="false">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-new-scenario-input-name">Device Size</label><span>Which form factor (width-wise) you want to test?</span>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="new-scenario-device-size-options" id="new-scenario-device-size-options-xs" value="xs">
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="new-scenario-device-size-options" id="new-scenario-device-size-options-sm" value="sm">
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="new-scenario-device-size-options" id="new-scenario-device-size-options-md" value="md" checked>
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="new-scenario-device-size-options" id="new-scenario-device-size-options-lg" value="lg">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="modal-error-message" id="new-scenario-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Start"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="run-scenario-modal" tabindex="-1" role="dialog" aria-labelledby="run-scenario-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="scenario" data-doc-subsection="run-a-scenario">?</button>
+            <h4 class="modal-title" id="run-scenario-modal-label">Run Scenarios</h4>
+          </div>
+          <form role="form" id="run-scenario-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="run-scenario-url">Start URL:</label>
+
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="run-scenario-radio-group-url" id="run-scenario-radio-url-default" checked>
+                    Use default start URL in scenario
+                  </label>
+                </div><!-- /input-group -->
+                <div class="radio">
+                  <label class="run-modal-radio-label">
+                    <input type="radio" name="run-scenario-radio-group-url" id="run-scenario-radio-host-custom">
+                    <div>
+                      Use different Host (but use the path in default start URL)
+                      <input type="text" class="form-control" id="run-scenario-text-host-custom" placeholder="e.g. http://www.example.com" spellcheck="false" disabled>
+                    </div>
+                  </label>
+                </div><!-- /input-group -->
+                <div class="radio">
+                  <label class="run-modal-radio-label">
+                    <input type="radio" name="run-scenario-radio-group-url" id="run-scenario-radio-url-custom">
+                    <div>
+                      Use different start URL
+                      <input type="text" class="form-control" id="run-scenario-text-url-custom" placeholder="e.g. http://www.example.com/your/path/to/testing.html" spellcheck="false" disabled>
+                    </div>
+                  </label>
+                </div><!-- /input-group -->
+              </div>
+              <div class="form-group">
+                <div><label>Device Size:</label></div>
+                <table class="table table-condensed table-hover run-scenario-modal-device-sizes js-run-scenario-modal-device-sizes">
+                  <thead>
+                    <tr>
+                      <td></td>
+                      <td class="js-run-scenario-modal-device-sizes-head-xs"></td>
+                      <td class="js-run-scenario-modal-device-sizes-head-sm"></td>
+                      <td class="js-run-scenario-modal-device-sizes-head-md"></td>
+                      <td class="js-run-scenario-modal-device-sizes-head-lg"></td>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="form-group">
+                <label for="run-scenario-note">Note:</label>
+                <textarea class="form-control" id="run-scenario-note" rows="4" placeholder="e.g. version 3.12.759, etc"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="modal-error-message" id="run-scenario-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Start"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit-project-modal" tabindex="-1" role="dialog" aria-labelledby="edit-project-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="project" data-doc-subsection="create-a-project">?</button>
+            <h4 class="modal-title" id="edit-project-modal-label">Project</h4>
+          </div>
+          <form role="form" id="edit-project-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="edit-project-name">Name</label>
+                <input class="form-control" id="edit-project-name" placeholder="Enter project name">
+                <br>
+                <label for="edit-project-url">Base URL</label> (Typically the domain of your webserver)
+                <input class="form-control" id="edit-project-url" placeholder="e.g. http://www.example.com, http://localhost:3000" spellcheck="false">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div>
+                <button type="button" class="btn btn-danger pull-left" id="delete-project-btn">Delete</button>
+                <span><p class="modal-error-message" id="edit-project-error"></p></span>
+                <input type="submit" class="btn btn-primary" value="Save"></input>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+              <div id="delete-project-confirmation">
+                <hr>
+
+                Are you sure you want to delete this project, and all scenarios and results associated with it? This action is not reversible.
+                <div class="delete-project-buttons">
+                  <button class="btn btn-danger" id="delete-project-confirm-btn">Confirm</button>
+                  <button class="btn btn-default" id="delete-project-cancel-btn">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="feedback-modal" tabindex="-1" role="dialog" aria-labelledby="feedback-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="feedback-modal-label">Feedback</h4>
+          </div>
+          <div class="modal-cover" id="modal-cover-feedback">
+            Thank you.<br>We will get back to you shortly.
+          </div>
+          <form role="form" id="feedback-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label" for="feedback-name">Name</label>
+                <input class="form-control" id="feedback-name" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="feedback-email">Email</label>
+                <input type="email" class="form-control" id="feedback-email" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="feedback-message">Message</label>
+                <textarea id="feedback-message" class="form-control" rows="5"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="modal-error-message" id="feedback-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Send"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-labelledby="signin-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="signin-modal-label">Sign In</h4>
+          </div>
+          <div class="modal-body">
+            <div class="modal-auth-signin-buttons">
+              <button type="button" class="btn btn-info btn-block js-signin-with-github">Sign in with Github</button>
+              <button type="button" class="btn btn-danger btn-block js-signin-with-google">Sign in with Google</button>
+            </div>
+            <div class="modal-hr">
+              <span>
+                <em>&nbsp;&nbsp;OR&nbsp;&nbsp;</em>
+              </span>
+            </div>
+
+            <form role="form" id="signin-form">
+              <div class="alert alert-danger" id="signin-modal-alert" role="alert">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span id="signin-modal-error"></span>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="sign-modal-login">Username/Email</label>
+                <input class="form-control" id="signin-modal-login" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="sign-modal-password">Password</label>
+                <input type="password" class="form-control" id="signin-modal-password"></input>
+                <span class="help-block">
+                  <a href="#" id="signin-modal-forgot-password" target="_blank">Forgot your password?</a>
+                </span>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="Sign In"></input>
+              </div>
+              <div class="modal-hr"></div>
+              <div class="text-center">
+                <p>Don't have an account yet?</p>
+                <button type="button" class="btn btn-default" data-dismiss="modal" href="#" data-toggle="modal" data-target="#signup-modal">Sign up</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="signup-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="signup-modal-label">Sign Up</h4>
+          </div>
+          <div class="modal-body">
+            <div class="modal-auth-signin-buttons">
+              <button type="button" class="btn btn-info btn-block js-signin-with-github">Sign in with Github</button>
+              <button type="button" class="btn btn-danger btn-block js-signin-with-google">Sign in with Google</button>
+            </div>
+            <div class="modal-hr">
+              <span>
+                <em>&nbsp;&nbsp;OR&nbsp;&nbsp;</em>
+              </span>
+            </div>
+
+            <form role="form" id="signup-form">
+              <div class="alert alert-danger" id="signup-modal-alert" role="alert">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span id="signup-modal-error"></span>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="signup-modal-username">Username</label>
+                <input class="form-control" id="signup-modal-username" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="signup-modal-email">Email</label>
+                <input type="email" class="form-control" id="signup-modal-email" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="signup-modal-password">Password</label>
+                <input type="password" class="form-control" id="signup-modal-password"></input>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="signup-modal-password-confirmation">Password Confirmation</label>
+                <input type="password" class="form-control" id="signup-modal-password-confirmation"></input>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="Sign Up"></input>
+              </div>
+              <div class="tos-agreement">By registering, you agree to our <a href="https://manualtest.io/tos" target="_blank">Terms of Use</a> and <a href="https://manualtest.io/privacy_policy" target="_blank">Privacy Policy</a>.</div>
+              <div class="modal-hr"></div>
+              <div class="text-center">
+                <p>Already have an account?</p>
+                <button type="button" class="btn btn-default" data-dismiss="modal" href="#" data-toggle="modal" data-target="#signin-modal">Sign in</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="edit-profile-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="edit-profile-modal-label">Edit Profile</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form" id="edit-profile-form">
+              <div class="alert alert-danger" id="edit-profile-modal-alert" role="alert">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span id="edit-profile-modal-error"></span>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="edit-profile-modal-username">Username</label>
+                <input class="form-control" id="edit-profile-modal-username" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="edit-profile-modal-email">Email</label>
+                <input type="email" class="form-control" id="edit-profile-modal-email" placeholder="">
+              </div>
+              <div id="edit-profile-update-passwords">
+                <div class="form-group">
+                  <label class="control-label" for="edit-profile-modal-password">Password</label><br>
+                  <small><em>(Leave blank if you don't want to change it)</em></small>
+                  <input type="password" class="form-control" id="edit-profile-modal-password"></input>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="edit-profile-modal-password-confirmation">Password Confirmation</label>
+                  <input type="password" class="form-control" id="edit-profile-modal-password-confirmation"></input>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="edit-profile-modal-current-password">Current Password</label><br>
+                  <small><em>(we need your current password to confirm your changes)</em></small>
+                  <input type="password" class="form-control" id="edit-profile-modal-current-password"></input>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="Update"></input>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="prompt-signin-modal" tabindex="-1" role="dialog" aria-labelledby="prompt-signin-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="prompt-signin-modal-label">Welcome</h4>
+          </div>
+          <div class="modal-body text-center">
+            <div class="row">
+              <div class="col-xs-12">
+                <p class="message">
+                  <strong>Sign in to back up your scenarios!</strong> After signing in, your scenarios will be saved and synchronized across all your devcies automatically.
+                </p>
+              </div>
+              <div class="col-xs-6 col-xs-offset-3">
+                <button class="btn btn-primary btn-block" data-dismiss="modal" data-toggle="modal" data-target="#signin-modal">Sign in</button>
+                <div class="signup-link">Don't have an account yet?<br>
+                <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signup-modal">Sign up</a> for Free!</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Not now</input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit-data-modal" tabindex="-1" role="dialog" aria-labelledby="edit-data-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="btn btn-modal-help js-link-doc" data-doc-section="data">?</button>
+            <h4 class="modal-title" id="edit-data-modal-label">Data</h4>
+          </div>
+          <form role="form" id="edit-data-modal-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label" for="edit-data-modal-name">Name</label>
+                <input class="form-control" id="edit-data-modal-name" placeholder="">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="edit-data-modal-value">Value</label>
+                <input type="text" class="form-control" id="edit-data-modal-value" placeholder="">
+              </div>
+              <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <input id="edit-data-modal-regex" type="checkbox" value="">
+                    Regular Expression
+                  </label>
+                  <a href="#" id="edit-data-modal-regex-help"><small>(Hints)</small></a>
+                </div>
+                <div class="bg-info modal-edit-data-regex-hints js-edit-data-modal-regex-hints">
+                  Regular expression hints:<br>
+                  <br>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div><span class="regex-help-char">^</span><span class="regex-help-description">beginning of text</span></div>
+                      <div><span class="regex-help-char">$</span><span class="regex-help-description">end of text</span></div>
+                      <div><span class="regex-help-char">*</span><span class="regex-help-description">matches 0 or more times</span></div>
+                      <div><span class="regex-help-char">+</span><span class="regex-help-description">matches 1 or more times</span></div>
+                      <div><span class="regex-help-char">?</span><span class="regex-help-description">matches 0 or 1 time</span></div>
+                      <div><span class="regex-help-char">{n}</span><span class="regex-help-description">matches n times</span></div>
+                      <div><span class="regex-help-char">{n,m}</span><span class="regex-help-description">matches n to m times</span></div>
+                      <div><span class="regex-help-char">{n,}</span><span class="regex-help-description">matches n to more times</span></div>
+                      <div><span class="regex-help-char">.</span><span class="regex-help-description">any character except newline</span></div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div><span class="regex-help-char">x|y</span><span class="regex-help-description">match x or y</span></div>
+                      <div><span class="regex-help-char">[xyz]</span><span class="regex-help-description">matches one character in bracket</span></div>
+                      <div><span class="regex-help-char">[^xyz]</span><span class="regex-help-description">matches one character not in bracket</span></div>
+                      <div><span class="regex-help-char">\d</span><span class="regex-help-description">matches a digit character</span></div>
+                      <div><span class="regex-help-char">\D</span><span class="regex-help-description">matches a non-digit character</span></div>
+                      <div><span class="regex-help-char">\s</span><span class="regex-help-description">matches a white space character</span></div>
+                      <div><span class="regex-help-char">\S</span><span class="regex-help-description">matches a non-white space character</span></div>
+                      <div><span class="regex-help-char">\w</span><span class="regex-help-description">matches an alphanumeric character, or underscore</span></div>
+                      <div><span class="regex-help-char">\W</span><span class="regex-help-description">matches non-word character</span></div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank">Documentation</a> on Javascript regular expression
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span><p class="modal-error-message" id="edit-data-modal-error"></p></span>
+              <input type="submit" class="btn btn-primary" value="Save"></input>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/vendors/URI.js"></script>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/require.js"></script>
+    <script src="../js/home/home.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    hello
+    <input id="aa" /><span id="bb"></span>
+    <button id="cc" onclick="buttonClick()">点击</button>
+<script>
+    var i =0
+    function buttonClick() {
+        document.getElementById("bb").innerText = document.getElementById("aa").value
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../css/application.css" rel="stylesheet" type="text/css">
+    <link href="../css/summary.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/animate.min.css" rel="stylesheet">
+
+  </head>
+  <body class="frame-border">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 scenario-header">
+          <span class="scenario-mode-icon-test pull-left">
+            <i class="fa fa-caret-square-o-right fa-3x" title="Test mode"></i>
+          </span>
+          <span class="title-button-group">
+            <span class="fa-stack fa-lg title-button js-home" title="home">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+            </span>
+            <span class="fa-stack fa-lg title-button js-close" title="close">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+            </span>
+          </span>
+          <span class="page-title"><span>Summary</span></span></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="table-container">
+            <table class="table table-condensed table-summary js-table-summary">
+              <thead>
+                <tr>
+                  <td class="td-summary-scenario-name">Name</td>
+                  <td class="td-summary-device-size">Device</td>
+                  <td class="td-summary-progress">Status</td>
+                  <td class="td-summary-window"></td>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="windows-incomplete-modal" tabindex="-1" role="dialog" aria-labelledby="windows-incomplete-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="windows-incomplete-modal-label">Close</h4>
+          </div>
+          <form role="form" id="windows-incomplete-form">
+            <div class="modal-body">
+              <p>
+                Closing the window will abort some tests that are still running. Close anyway?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" id="force-close-btn">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/require.js"></script>
+    <script src="../js/summary/summary.js"></script>
+  </body>
+</html>
