@@ -172,7 +172,6 @@ const EventData = Object.create(Action, {
     }
 });
 
-
 const BrowserAction = Object.create(Action, {
     actionType: {
         value: "BrowserAction"
@@ -257,7 +256,6 @@ const BrowserAction = Object.create(Action, {
         }
     }
 });
-
 
 const VerifyUrlAction = Object.create(Action, {
     actionType: {
@@ -363,7 +361,6 @@ const WaitTimeAction = Object.create(Action, {
         }
     }
 });
-
 
 const VerifyTextAction = Object.create(Action, {
     actionType: {
@@ -860,196 +857,193 @@ define('home/data_table', ["jquery", "EventEmitter"], function ($, EventEmitter)
     return DataTable;
 });
 
+define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table", "./data_table"], function ($, Scenario, DataSet, ScenariosTable, DataTable) {
+    'use strict';
 
-define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table", "./data_table"],
-    function ($, Scenario, DataSet, ScenariosTable, DataTable) {
-        'use strict';
+    const SCENARIOS_TABLE_ID = "scenarios-table";
+    const PROJECT_DATA_TABLE_ID = "project-data-table";
 
-        const SCENARIOS_TABLE_ID = "scenarios-table";
-        const PROJECT_DATA_TABLE_ID = "project-data-table";
+    const projectPage = {};
+    const projectTitleName = $("#title-project-name");
+    const projectTitleUrl = $("#title-project-url");
+    const newScenarioBtn = $("#new-scenario-btn");
+    const runScenarioBtn = $("#run-scenario-btn");
 
-        const projectPage = {};
-        const projectTitleName = $("#title-project-name");
-        const projectTitleUrl = $("#title-project-url");
-        const newScenarioBtn = $("#new-scenario-btn");
-        const runScenarioBtn = $("#run-scenario-btn");
+    const projectScenariosTab = $("#tab-project-scenarios");
+    const projectDataTab = $("#tab-project-data-set");
+    // const projectSettingsTab = $("#tab-project-settings");
 
-        const projectScenariosTab = $("#tab-project-scenarios");
-        const projectDataTab = $("#tab-project-data-set");
-        // const projectSettingsTab = $("#tab-project-settings");
+    const addProjectDataButton = $("#add-project-data-btn");
 
-        const addProjectDataButton = $("#add-project-data-btn");
+    const projectDataTable = DataTable.create(PROJECT_DATA_TABLE_ID, true);
 
-        const projectDataTable = DataTable.create(PROJECT_DATA_TABLE_ID, true);
+    var storage;
+    var syncEngine;
+    var mixpanel;
+    var device;
+    var sandbox;
 
-        var storage;
-        var syncEngine;
-        var mixpanel;
-        var device;
-        var sandbox;
+    projectPage.initialize = function (s, env) {
+        sandbox = s;
+        storage = env.storage;
+        syncEngine = env.syncEngine;
+        mixpanel = env.mixpanel;
+        device = env.device;
 
-        projectPage.initialize = function (s, env) {
-            sandbox = s;
-            storage = env.storage;
-            syncEngine = env.syncEngine;
-            mixpanel = env.mixpanel;
-            device = env.device;
+        ScenariosTable.initialize(SCENARIOS_TABLE_ID, {
+            syncEngine: syncEngine,
+            device: device
+        });
 
-            ScenariosTable.initialize(SCENARIOS_TABLE_ID, {
-                syncEngine: syncEngine,
-                device: device
-            });
+        syncEngine.addListener("scenarioCreated", function (scenario) {
+            if (isScenarioFromCurrentProject(scenario)) {
+                ScenariosTable.updateOrAddScenarioRow(scenario);
+            }
+        });
+        syncEngine.addListener("scenarioUpdated", function (scenario) {
+            if (isScenarioFromCurrentProject(scenario)) {
+                ScenariosTable.updateOrAddScenarioRow(scenario);
+            }
+        });
+        syncEngine.addListener("scenarioRemoved", function (removedScenario) {
+            if (isScenarioFromCurrentProject(removedScenario)) {
+                ScenariosTable.removeScenarioRow(removedScenario);
+                setRunScenarioBtnState();
+            }
+        });
 
-            syncEngine.addListener("scenarioCreated", function (scenario) {
-                if (isScenarioFromCurrentProject(scenario)) {
-                    ScenariosTable.updateOrAddScenarioRow(scenario);
+        syncEngine.addListener("scenarioResultCreated", function (createdScenarioResult) {
+            syncEngine.getScenarioByKey(createdScenarioResult.scenarioKey).then(function (scenario) {
+                if (scenario && isScenarioFromCurrentProject(scenario)) {
+                    ScenariosTable.updateResult(createdScenarioResult);
                 }
             });
-            syncEngine.addListener("scenarioUpdated", function (scenario) {
-                if (isScenarioFromCurrentProject(scenario)) {
-                    ScenariosTable.updateOrAddScenarioRow(scenario);
-                }
-            });
-            syncEngine.addListener("scenarioRemoved", function (removedScenario) {
-                if (isScenarioFromCurrentProject(removedScenario)) {
-                    ScenariosTable.removeScenarioRow(removedScenario);
-                    setRunScenarioBtnState();
-                }
-            });
-
-            syncEngine.addListener("scenarioResultCreated", function (createdScenarioResult) {
-                syncEngine.getScenarioByKey(createdScenarioResult.scenarioKey).then(function (scenario) {
+        });
+        syncEngine.addListener("scenarioResultUpdated", function (updatedScenarioResult) {
+            syncEngine.getScenarioByKey(updatedScenarioResult.scenarioKey).then(
+                function (scenario) {
                     if (scenario && isScenarioFromCurrentProject(scenario)) {
-                        ScenariosTable.updateResult(createdScenarioResult);
+                        ScenariosTable.updateResult(updatedScenarioResult);
                     }
                 });
-            });
-            syncEngine.addListener("scenarioResultUpdated", function (updatedScenarioResult) {
-                syncEngine.getScenarioByKey(updatedScenarioResult.scenarioKey).then(
-                    function (scenario) {
-                        if (scenario && isScenarioFromCurrentProject(scenario)) {
-                            ScenariosTable.updateResult(updatedScenarioResult);
-                        }
-                    });
-            });
+        });
 
-            ScenariosTable.addListener("scenariosSelectionChanged", function () {
-                setRunScenarioBtnState();
-            });
-            ScenariosTable.addListener("scenarioClicked", function (scenario) {
-                sandbox.showScenarioPage(scenario);
-            });
-            ScenariosTable.addListener("scenarioRequestRemoval", function (scenario) {
-                sandbox.removeScenario(scenario);
-            });
-            ScenariosTable.addListener("scenarioEdit", function (scenario) {
-                sandbox.editScenario(scenario, {mode: "edit"});
-            });
-
-            addProjectDataButton.click(function (e) {
-                e.preventDefault();
-                let project = currentProject();
-
-                sandbox.editData({}).then(function (data) {
-                    project.dataSet.addData(data).then(function () {
-                        syncEngine.addProject(project);
-                    }, function (err) {
-                        console.error("Error adding data %O to Project %O: %O", data, project, err);
-                    });
-                });
-            });
-
-            projectDataTable.addListener("dataEdit", function (data) {
-                let project = currentProject();
-                sandbox.editData(data).then(function (data) {
-                    project.dataSet.addData(data).then(function () {
-                        syncEngine.addProject(project);
-                    }, function (err) {
-                        console.error("Error editing data $O to Project: %O: %O", data, project, err);
-                    });
-                });
-            });
-
-            projectDataTable.addListener("dataRemove", function (data) {
-                if (currentProject().dataSet.removeData(data.name)) {
-                    syncEngine.addProject(currentProject());
-                }
-            });
-
-            newScenarioBtn.click(function (e) {
-                sandbox.editScenario(Scenario.createWithJson({
-                    name: '',
-                    url: '',
-                    projectKey: currentProject() ? currentProject().key : null,
-                    dataSet: {},
-                    deviceSize: device.defaultDeviceSize()
-                }, {
-                    mode: "create"
-                }));
-            });
-
-            runScenarioBtn.click(function (e) {
-                sandbox.runScenarios(ScenariosTable.selectedScenarios());
-            });
-
+        ScenariosTable.addListener("scenariosSelectionChanged", function () {
             setRunScenarioBtnState();
-        };
+        });
+        ScenariosTable.addListener("scenarioClicked", function (scenario) {
+            sandbox.showScenarioPage(scenario);
+        });
+        ScenariosTable.addListener("scenarioRequestRemoval", function (scenario) {
+            sandbox.removeScenario(scenario);
+        });
+        ScenariosTable.addListener("scenarioEdit", function (scenario) {
+            sandbox.editScenario(scenario, {mode: "edit"});
+        });
 
-        projectPage.refresh = function () {
-            ScenariosTable.startLoading();
-            syncEngine.getScenariosByProject(currentProject()).then(function (scenarios) {
-                scenarios.forEach(function (s) {
-                    ScenariosTable.updateOrAddScenarioRow(s);
+        addProjectDataButton.click(function (e) {
+            e.preventDefault();
+            let project = currentProject();
+
+            sandbox.editData({}).then(function (data) {
+                project.dataSet.addData(data).then(function () {
+                    syncEngine.addProject(project);
+                }, function (err) {
+                    console.error("Error adding data %O to Project %O: %O", data, project, err);
                 });
-            }).then(function () {
-                ScenariosTable.endLoading();
-                setRunScenarioBtnState();
             });
+        });
 
-            if (currentProject()) {
-                projectTitleName.text(currentProject().name);
-                projectTitleUrl.text("(" + currentProject().url + ")");
-                projectDataTable.refresh(currentProject().dataSet);
-                projectDataTab.removeClass('disabled');
-                projectDataTab.show();
-                projectDataTab.children("a").attr("data-toggle", "tab");
-                // projectSettingsTab.removeClass('disabled');
-                // projectSettingsTab.children('a').attr("data-toggle", "tab");
-            } else {
-                projectTitleName.text("no project");
-                projectTitleUrl.text('');
-                projectScenariosTab.children("a").tab("show");
-                projectDataTab.addClass('disabled');
-                projectDataTab.hide();
-                projectDataTab.children("a").removeAttr("data-toggle");
-                // projectSettingsTab.addClass('disabled');
-                // projectSettingsTab.children("a").removeAttr('data-toggle');
+        projectDataTable.addListener("dataEdit", function (data) {
+            let project = currentProject();
+            sandbox.editData(data).then(function (data) {
+                project.dataSet.addData(data).then(function () {
+                    syncEngine.addProject(project);
+                }, function (err) {
+                    console.error("Error editing data $O to Project: %O: %O", data, project, err);
+                });
+            });
+        });
+
+        projectDataTable.addListener("dataRemove", function (data) {
+            if (currentProject().dataSet.removeData(data.name)) {
+                syncEngine.addProject(currentProject());
             }
-        };
+        });
 
-        var currentProject = function () {
-            return sandbox.currentProject;
-        };
+        newScenarioBtn.click(function (e) {
+            sandbox.editScenario(Scenario.createWithJson({
+                name: '',
+                url: '',
+                projectKey: currentProject() ? currentProject().key : null,
+                dataSet: {},
+                deviceSize: device.defaultDeviceSize()
+            }, {
+                mode: "create"
+            }));
+        });
 
-        var isScenarioFromCurrentProject = function (scenario) {
-            return ((!currentProject() && !scenario.projectKey) ||
-                (currentProject() && currentProject().key === scenario.projectKey));
-        };
+        runScenarioBtn.click(function (e) {
+            sandbox.runScenarios(ScenariosTable.selectedScenarios());
+        });
 
-        var setRunScenarioBtnState = function () {
-            let selected = ScenariosTable.selectedScenarios().length;
-            if (selected === 0) {
-                runScenarioBtn.text("Run");
-                runScenarioBtn.attr("disabled", "disabled");
-            } else {
-                runScenarioBtn.removeAttr("disabled");
-                runScenarioBtn.text("Run (" + selected + ")");
-            }
-        };
+        setRunScenarioBtnState();
+    };
 
-        return projectPage;
-    });
+    projectPage.refresh = function () {
+        ScenariosTable.startLoading();
+        syncEngine.getScenariosByProject(currentProject()).then(function (scenarios) {
+            scenarios.forEach(function (s) {
+                ScenariosTable.updateOrAddScenarioRow(s);
+            });
+        }).then(function () {
+            ScenariosTable.endLoading();
+            setRunScenarioBtnState();
+        });
 
+        if (currentProject()) {
+            projectTitleName.text(currentProject().name);
+            projectTitleUrl.text("(" + currentProject().url + ")");
+            projectDataTable.refresh(currentProject().dataSet);
+            projectDataTab.removeClass('disabled');
+            projectDataTab.show();
+            projectDataTab.children("a").attr("data-toggle", "tab");
+            // projectSettingsTab.removeClass('disabled');
+            // projectSettingsTab.children('a').attr("data-toggle", "tab");
+        } else {
+            projectTitleName.text("no project");
+            projectTitleUrl.text('');
+            projectScenariosTab.children("a").tab("show");
+            projectDataTab.addClass('disabled');
+            projectDataTab.hide();
+            projectDataTab.children("a").removeAttr("data-toggle");
+            // projectSettingsTab.addClass('disabled');
+            // projectSettingsTab.children("a").removeAttr('data-toggle');
+        }
+    };
+
+    var currentProject = function () {
+        return sandbox.currentProject;
+    };
+
+    var isScenarioFromCurrentProject = function (scenario) {
+        return ((!currentProject() && !scenario.projectKey) ||
+            (currentProject() && currentProject().key === scenario.projectKey));
+    };
+
+    var setRunScenarioBtnState = function () {
+        let selected = ScenariosTable.selectedScenarios().length;
+        if (selected === 0) {
+            runScenarioBtn.text("Run");
+            runScenarioBtn.attr("disabled", "disabled");
+        } else {
+            runScenarioBtn.removeAttr("disabled");
+            runScenarioBtn.text("Run (" + selected + ")");
+        }
+    };
+
+    return projectPage;
+});
 
 define('home/scenario_page', ["jquery", "moment", "./data_table"], function ($, moment, DataTable) {
     'use strict';

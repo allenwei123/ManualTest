@@ -933,7 +933,6 @@ const DataInsertAction = Object.create(Action, {
     }
 });
 
-
 define('scenario/steps_list', ["jquery", "underscore", "Element", "Action", "scenario/keycode", "EventEmitter"], function ($, _, Element, Action, keyCode, EventEmitter) {
     "use strict";
 
