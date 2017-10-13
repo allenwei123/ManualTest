@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="../css/application.css" rel="stylesheet" type="text/css">
     <link href="../css/scenario.css" rel="stylesheet" type="text/css">
     <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -38,52 +39,52 @@
           <div class="scenario-content">
             <div class="scenario-col-left">
               <div class="bootstro bootstro-new-scenario-steps-list" data-bootstro-title="Tutorial: Record" data-bootstro-content="Your actions are automatically recorded." data-bootstro-step="1" data-bootstro-placement="right">
-                <h4 class="text-muted">Steps:</h4>
+                <h4 class="text-muted">步骤:</h4>
                 <!-- <ol id="steps-list"></ol> -->
                 <div id="steps-list"></div>
               </div>
             </div>
             <div class="scenario-col-main">
               <div id="new-scenarios-controls">
-                <button id='reset-btn' class="btn btn-danger pull-right btn-scenario-control" data-toggle="modal" data-target="#reset-modal">Reset</button>
-                <button id='test-run-btn' class="btn btn-primary btn-scenario-control bootstro" data-bootstro-title="Tutorial: Test" data-bootstro-content="Replay your scenario in a new session to try it out." data-bootstro-step="3" data-bootstro-placement="bottom"><b>&nbsp;&nbsp;Test Run&nbsp;&nbsp;</b></button>
-                <button id="save-btn" class="btn btn-info btn-scenario-control bootstro" data-bootstro-title="Tutorial: Save" data-bootstro-content="Save your scenario when it is done." data-bootstro-step="4" data-bootstro-placement="right" data-bootstro-finishButtonText="Exit Tutorial"><b>Save</b></button>
+                <button id='reset-btn' class="btn btn-danger pull-right btn-scenario-control" data-toggle="modal" data-target="#reset-modal">重置</button>
+                <button id='test-run-btn' class="btn btn-primary btn-scenario-control bootstro" data-bootstro-title="Tutorial: Test" data-bootstro-content="Replay your scenario in a new session to try it out." data-bootstro-step="3" data-bootstro-placement="bottom"><b>&nbsp;&nbsp;运行测试&nbsp;&nbsp;</b></button>
+                <button id="save-btn" class="btn btn-info btn-scenario-control bootstro" data-bootstro-title="Tutorial: Save" data-bootstro-content="Save your scenario when it is done." data-bootstro-step="4" data-bootstro-placement="right" data-bootstro-finishButtonText="Exit Tutorial"><b>保存</b></button>
                 <div style="display:inline-block;" class="bootstro" data-bootstro-title="Tutorial: Add" data-bootstro-content="Add specialized steps as needed." data-bootstro-step="2" data-bootstro-placement="bottom">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
-                      Verify <span class="caret"></span>
+                      验证 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" id="verify-text-btn">Text in page</a></li>
-                      <li><a href="#" id="verify-url-btn">URL</a></li>
+                      <li><a href="#" id="verify-text-btn">在页面中的文字</a></li>
+                      <li><a href="#" id="verify-url-btn">URL地扯</a></li>
                     </ul>
                   </div>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
-                      Wait <span class="caret"></span>
+                      等待 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" id="wait-time-btn">by Time</a></li>
+                      <li><a href="#" id="wait-time-btn">时间</a></li>
                     </ul>
                   </div>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
-                      Browser <span class="caret"></span>
+                      浏览器 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" id="browser-back-btn">Go Back</a></li>
-                      <li><a href="#" id="browser-forward-btn">Go Forward</a></li>
-                      <li><a href="#" id="browser-reload-btn">Reload</a></li>
+                      <li><a href="#" id="browser-back-btn">后退</a></li>
+                      <li><a href="#" id="browser-forward-btn">前进</a></li>
+                      <li><a href="#" id="browser-reload-btn">刷新</a></li>
                       <li><a href="#" id="browser-hover-btn">Hover</a></li>
                     </ul>
                   </div>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle btn-scenario-control" data-toggle="dropdown">
-                      Data <span class="caret"></span>
+                      数据 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" id="data-insert-btn">Insert</a></li>
-                      <li><a href="#" data-toggle="modal" data-target="#data-manage-modal">Manage</a></li>
+                      <li><a href="#" id="data-insert-btn">插入</a></li>
+                      <li><a href="#" data-toggle="modal" data-target="#data-manage-modal">管理</a></li>
                     </ul>
                   </div>
 

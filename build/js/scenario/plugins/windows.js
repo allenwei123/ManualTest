@@ -12,11 +12,12 @@ define('windows', ["jquery"], function ($) {
     const MIN_WINDOW_WIDTH = 750; // Minimum width to show modals, buttons and tutorial nicely on all platforms
     const MIN_WINDOW_HEIGHT = DEFAULT_HEIGHT_DELTA + MIN_WEBVIEW_HEIGHT;
 
-    const EDIT_SCENARIO_PATH = requirejs.s.contexts._.config.baseUrl + "../html/new_scenario.html";
-    const RUN_SCENARIO_PATH = requirejs.s.contexts._.config.baseUrl + "../html/run_scenario.html";
-    const HOME_PATH = requirejs.s.contexts._.config.baseUrl + "../html/home.html";
-    const OAUTH_PATH = requirejs.s.contexts._.config.baseUrl + "../html/oauth.html";
-    const SUMMARY_PATH = requirejs.s.contexts._.config.baseUrl + "../html/summary.html";
+    const baseUrl = requirejs.s.contexts._.config.baseUrl;
+    const EDIT_SCENARIO_PATH = baseUrl + "../html/new_scenario.html";
+    const RUN_SCENARIO_PATH = baseUrl + "../html/run_scenario.html";
+    const HOME_PATH = baseUrl + "../html/home.html";
+    const OAUTH_PATH = baseUrl + "../html/oauth.html";
+    const SUMMARY_PATH = baseUrl + "../html/summary.html";
 
     const WINDOW_HOME_ID = "home";
     const WINDOW_HOME_WIDTH = 1024;
@@ -71,10 +72,10 @@ define('windows', ["jquery"], function ($) {
     windows.openHomeWindow = function () {
         let win = chrome.app.window.get(WINDOW_HOME_ID);
         if (win) {
-            console.log("Home window existing. Showing");
+            console.log("Home 容器已经存在,正在显示中");
             win.show();
         } else {
-            console.log("Creating Home window");
+            console.log("正在创建Home窗口");
             chrome.app.window.create(HOME_PATH, {
                 id: WINDOW_HOME_ID,
                 innerBounds: {

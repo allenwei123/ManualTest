@@ -46,15 +46,16 @@ define('mixpanel', ["jquery"], function ($) {
 
         var url = eventUrl + "?data=" + encoded;
 
-        $.get(url, function (data) {
-            if (data === 1) {
-                console.log("succeed tracking: " + evt);
-            } else if (data === 0) {
-                console.log("failed tracking: %s", evt);
-            } else {
-                console.log("unknown response from tracking: " + data);
-            }
-        });
+        //将日志进行记录
+        // $.get(url, function (data) {
+        //     if (data === 1) {
+        //         console.log("succeed tracking: " + evt);
+        //     } else if (data === 0) {
+        //         console.log("failed tracking: %s", evt);
+        //     } else {
+        //         console.log("unknown response from tracking: " + data);
+        //     }
+        // });
     };
 
     mixpanel.alias = function (originalId, newId) {

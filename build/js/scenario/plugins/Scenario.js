@@ -12,7 +12,8 @@ define('Scenario', ["Action", "DataSet"], function (Action, DataSet) {
             for (var p in json) {
                 if (json.hasOwnProperty(p)) {
                     if (p === "actions") {
-                        obj.actions = json.actions.map(Action.createWithJson);
+                        // obj.actions = json.actions.map(Action.createWithJson);
+                        obj.actions = json.actions.map(this.createWithJson);
                     } else if (p === "dataSet") {
                         obj.dataSet = DataSet.createWithJson(json.dataSet);
                     } else {

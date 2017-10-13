@@ -203,7 +203,7 @@ define('home/scenarios_table', ["jquery", "EventEmitter"], function ($, EventEmi
                 $("<td />", {
                     'class': "td-help",
                     'colspan': COL_COUNT
-                }).text("Please start with creating a scenario.")));
+                }).text("开始创建一个场景.")));
     };
     var removeHelpRow = function () {
         tbody.find(".td-help").closest("td", tbody).remove();
@@ -432,6 +432,7 @@ define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table
             }
         });
 
+        //创建测试
         newScenarioBtn.click(function (e) {
             sandbox.editScenario(Scenario.createWithJson({
                 name: '',
@@ -439,9 +440,9 @@ define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table
                 projectKey: currentProject() ? currentProject().key : null,
                 dataSet: {},
                 deviceSize: device.defaultDeviceSize()
-            }, {
+            }), {
                 mode: "create"
-            }));
+            });
         });
 
         runScenarioBtn.click(function (e) {
@@ -472,7 +473,7 @@ define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table
             // projectSettingsTab.removeClass('disabled');
             // projectSettingsTab.children('a').attr("data-toggle", "tab");
         } else {
-            projectTitleName.text("no project");
+            projectTitleName.text("空项目");
             projectTitleUrl.text('');
             projectScenariosTab.children("a").tab("show");
             projectDataTab.addClass('disabled');
@@ -495,11 +496,11 @@ define('home/project_page', ["jquery", "Scenario", "DataSet", "./scenarios_table
     var setRunScenarioBtnState = function () {
         let selected = ScenariosTable.selectedScenarios().length;
         if (selected === 0) {
-            runScenarioBtn.text("Run");
+            runScenarioBtn.text("运行");
             runScenarioBtn.attr("disabled", "disabled");
         } else {
             runScenarioBtn.removeAttr("disabled");
-            runScenarioBtn.text("Run (" + selected + ")");
+            runScenarioBtn.text("运行 (" + selected + ")");
         }
     };
 
@@ -722,6 +723,7 @@ define('home/scenario_page', ["jquery", "moment", "./data_table"], function ($, 
     return scenarioPage;
 });
 
+//头部
 define('home/header', ["jquery"], function ($) {
     'use strict';
 
@@ -767,6 +769,7 @@ define('home/header', ["jquery"], function ($) {
     return header;
 });
 
+//左边隐藏边栏
 define('home/sidebar', ["jquery", "Project", "EventEmitter"], function ($, Project, EventEmitter) {
     'us strict';
 
@@ -840,7 +843,7 @@ define('home/sidebar', ["jquery", "Project", "EventEmitter"], function ($, Proje
         ).then(function () {
             projectsList.append($("<li />")
                 .append($("<div />", {'class': 'clearfix'})
-                    .text("<no project>")
+                    .text("<空项目>")
                 )
                 .click(function () {
                     projectSelected(null);
@@ -984,7 +987,7 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
     const SIGNIN_PROMPT_INTERVAL = 60000 * 60 * 12; // 12 hours
 
     const pagesCarousel = $('#js-pages-carousel');
-    const backLink = $("#js-back-link-project-page");
+    const backLink = $("#js-back-link-project-page");//返回按钮
     const initializationCover = $("#initialization-cover");
 
     const sandbox = {};
@@ -1040,18 +1043,15 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
 
         backLink.hide();
 
-        storage.getSetting(SETTING_LAST_PROJECT_SHOWN).then(
-            function (projectKey) {
+        storage.getSetting(SETTING_LAST_PROJECT_SHOWN).then(function (projectKey) {
                 if (projectKey) {
-                    return syncEngine.getProjectByKey(projectKey).then(
-                        function (p) {
-                            _currentProject = p;
-                        });
+                    return syncEngine.getProjectByKey(projectKey).then(function (p) {
+                        _currentProject = p;
+                    });
                 } else {
                     _currentProject = null;
                 }
-            },
-            function (err) {
+            }, function (err) {
                 console.error("Error getSetting on SETTING_LAST_PROJECT_SHOWN %i: %s", SETTING_LAST_PROJECT_SHOWN, err);
                 _currentProject = null;
                 storage.saveSetting(SETTING_LAST_PROJECT_SHOWN, null);
@@ -1720,9 +1720,9 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
             e.stopPropagation();
 
             if (scenarioName === '') {
-                editScenarioError.text("Scenario name is required.");
+                editScenarioError.text("场景名称必填.");
             } else if (!currentScenario.projectKey && (scenarioURL === '' || scenarioURL === 'http://' || scenarioURL === 'https://')) {
-                editScenarioError.text("URL is required.");
+                editScenarioError.text("URL地扯必填.");
             } else {
                 baseScenario = currentScenario;
                 baseScenario.name = scenarioName;
@@ -1744,6 +1744,7 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
                 }
 
                 baseScenario.getFullUrl(syncEngine).then(function (url) {
+                    //打开录制窗口
                     windows.openScenarioWindowForEdit(device, baseScenario, function (createdWindow) {
                         createdWindow.contentWindow.baseScenario = baseScenario;
                         createdWindow.contentWindow.shownTutorial = currentShownTutorial;
@@ -1755,6 +1756,7 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
                             });
                         }
                     });
+                    //关闭编辑窗
                     editScenarioModal.modal('hide');
                 });
             }
@@ -1765,9 +1767,9 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
 
             currentScenario = scenario.clone();
             editScenarioName.val(scenario.name);
-            syncEngine.getProjectByScenario(scenario).then(function (p) {
-                if (p) {
-                    editScenarioProjectUrl.text(p.url);
+            syncEngine.getProjectByScenario(scenario).then(function (project) {
+                if (project) {
+                    editScenarioProjectUrl.text(project.url);
                     editScenarioProjectUrl.show();
                     editScenarioUrl.val(scenario.url);
                 } else {
@@ -1781,13 +1783,14 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
             });
             editScenarioError.text('');
             if (options.mode === "edit" || !options.mode) {
-                editScenarioModalTitle.text("Edit Scenario");
+                editScenarioModalTitle.text("修改 场景");
             } else if (options.mode === "create") {
-                editScenarioModalTitle.text("New Scenario");
+                editScenarioModalTitle.text("新建 场景");
             } else if (options.mode === "clone") {
-                editScenarioModalTitle.text("Clone Scenario");
+                editScenarioModalTitle.text("复制 场景");
             }
 
+            //选择默认界面大小
             editScenarioModal.find("input[value=" + scenario.deviceSize + "]").prop("checked", true);
             editScenarioModal.modal("show");
         };
@@ -1951,7 +1954,7 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
                         deferred.resolve(Promise.all(resultsPromises));
 
 
-                        mixpanel.track("TestRun start", {
+                        mixpanel.track("测试运行开始", {
                             testsCount: scenariosWithDeviceSizes.length
                         });
 
@@ -2042,33 +2045,34 @@ define('home/sandbox', ["jquery", "./header", "./sidebar", "q", "DataSet", "wind
 });
 
 requirejs(["jquery", "bootstrap", "home/project_page", "home/scenario_page", "home/sandbox"], function ($, _b, projectPage, scenarioPage, sandbox) {
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
 
-        chrome.runtime.getBackgroundPage(function (bg) {
-            bg.appInitialization.then(function () {
-                sandbox.init(projectPage, scenarioPage, {
-                    storage: bg.storage,
-                    syncEngine: bg.syncEngine,
-                    mixpanel: bg.mixpanel,
-                    remoteHost: bg.remoteHost,
-                    account: bg.account,
-                    device: bg.device
-                });
+    $('[data-toggle="tooltip"]').tooltip();
+
+    chrome.runtime.getBackgroundPage(function (bg) {
+        bg.appInitialization.then(function () {
+            //对象引用传值
+            sandbox.init(projectPage, scenarioPage, {
+                storage: bg.storage,
+                syncEngine: bg.syncEngine,
+                mixpanel: bg.mixpanel,
+                remoteHost: bg.remoteHost,
+                account: bg.account,
+                device: bg.device
             });
-            $(".js-link-doc").click(function (e) {
-                // $(window).on("click", ".js-link-doc", function(e) {
-                e.preventDefault();
-                var url = bg.remoteHost + "/documentation/" + $(this).data("doc-section");
-                var sub = $(this).data("doc-subsection");
-                if (sub) {
-                    url = url + "#" + sub;
-                }
-                window.open(url);
-            });
+        });
+        $(".js-link-doc").click(function (e) {
+            // $(window).on("click", ".js-link-doc", function(e) {
+            e.preventDefault();
+            var url = bg.remoteHost + "/documentation/" + $(this).data("doc-section");
+            var sub = $(this).data("doc-subsection");
+            if (sub) {
+                url = url + "#" + sub;
+            }
+            window.open(url);
         });
     });
 });
 
-define("home/home", function () {});
+define("home/home", function () {
+});
 

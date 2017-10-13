@@ -1547,22 +1547,22 @@ define('device', ["jquery"], function ($) {
 
     const DEFAULT_DEVICE_SETTING = {
         [device.DEVICE_SIZE_EXTRA_SMALL]: {
-            fullName: "Extra Small",
+            fullName: "超小",
             width: 320,
             userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53"
         },
         [device.DEVICE_SIZE_SMALL]: {
-            fullName: "Small",
+            fullName: "小",
             width: 768,
             userAgent: "Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53"
         },
         [device.DEVICE_SIZE_MEDIUM]: {
-            fullName: "Medium",
+            fullName: "中",
             width: 1024,
             userAgent: null
         },
         [device.DEVICE_SIZE_LARGE]: {
-            fullName: "Large",
+            fullName: "大",
             width: 1366,
             userAgent: null
         }
@@ -1764,7 +1764,7 @@ requirejs([
     });
 
     // Clear up orphan data
-    var adjustScenario = function (s) {
+    let adjustScenario = function (s) {
         s.projectKey = 0;
         return syncEngine.addScenario(s).then(
             function (s) {
@@ -1775,8 +1775,8 @@ requirejs([
             });
     };
 
-    var httpServer = new HttpServer("127.0.0.1", 6030);
-    var fileProxy = new FileProxy(httpServer);
+    let httpServer = new HttpServer("127.0.0.1", 6030);
+    let fileProxy = new FileProxy(httpServer);
 
     // These are the js that are ready to serve to webview embedded pages.
     fileProxy.serve("/js/models/Element.js", requirejs.s.contexts._.config.baseUrl + "models/Element.js");
@@ -1790,7 +1790,7 @@ requirejs([
 
     chrome.runtime.onInstalled.addListener(function (details) {
         if (details.reason === "install") {
-            console.log("This is a first install!");
+            console.log("这是App第一次安装!");
             appInitialization.then(function () {
                 // console.log("os: %s, arch: %s, nacl_arch: %s",
                 //   platformInfo.os, platformInfo.arch, platformInfo.nacl_arch);
@@ -1803,7 +1803,7 @@ requirejs([
             });
         } else if (details.reason === "update") {
             appInitialization.then(function () {
-                var thisVersion = env.manifest.version;
+                let thisVersion = env.manifest.version;
                 console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
                 mixpanel.track("App update", {
                     previousVersion: details.previousVersion,
@@ -1817,7 +1817,7 @@ requirejs([
         launchHomeWindow = function () {
             windows.openHomeWindow();
             window.appInitialization.then(function () {
-                mixpanel.track("App start", {
+                mixpanel.track("App 启动", {
                     version: +env.manifest.version,
                 });
             });
