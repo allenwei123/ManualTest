@@ -2625,4 +2625,3 @@ requirejs(["jquery", "bootstrap", "scenario/scenario_controller", "ScenarioResul
 });
 
 define("scenario/new_scenario", function () {});
-

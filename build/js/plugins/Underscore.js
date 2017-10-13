@@ -1557,5 +1557,4 @@
     }
 }.call(this));
 
-define("underscore/underscore", function () {
-});
+define("underscore/underscore", function () {});

@@ -21,13 +21,13 @@ var logging = false;
 var MESSAGE_TYPE_FROM_INJECT = "fromInject";
 var MESSAGE_TYPE_TO_INJECT = "toInject";
 
-var httpScripts = ["http://127.0.0.1:6030/js/models/element.js",
+var httpScripts = ["http://127.0.0.1:6030/js/models/Element.js",
 
                    "http://127.0.0.1:6030/js/models/action.js",
                    "http://127.0.0.1:6030/js/core/page.js"];
 const manifest = chrome.runtime.getManifest();
 
-var httpsScripts = ["https://manualtest.io/app/" + manifest.version + "/element.js",
+var httpsScripts = ["https://manualtest.io/app/" + manifest.version + "/Element.js",
 
                     "https://manualtest.io/app/" + manifest.version + "/action.js",
                     "https://manualtest.io/app/" + manifest.version + "/page.js"];
